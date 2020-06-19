@@ -4,7 +4,7 @@ const Address = (props) => {
   const { cep, logradouro, localidade, uf } = props;
 
   return (
-    <div data-testid="address">
+    <div data-testid="address" className="container">
       <ul>
         <li>CEP: {cep}</li>
         <li>Logradouro: {logradouro}</li>

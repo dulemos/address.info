@@ -4,7 +4,7 @@ const NoData = (props) =>  {
     const {message} = props;
 
     return (
-        <div data-testid="nodata">
+        <div data-testid="nodata" className="container">
             <h1>{message}</h1>
         </div>
     ) 
