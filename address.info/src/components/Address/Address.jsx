@@ -4,12 +4,12 @@ const Address = (props) => {
   const { cep, logradouro, localidade, uf } = props;
 
   return (
-    <div data-testid="address" className="container">
-      <ul>
-        <li>CEP: {cep}</li>
-        <li>Logradouro: {logradouro}</li>
-        <li>Localidade: {localidade}</li>
-        <li>UF: {uf}</li>
+    <div data-testid="address" className="container box">
+      <ul className="box__list">
+        <li className="box__list__item"><b>CEP:</b> {cep}</li>
+        <li className="box__list__item"><b>Logradouro:</b> {logradouro}</li>
+        <li className="box__list__item"><b>Localidade:</b> {localidade}</li>
+        <li className="box__list__item"><b>UF:</b> {uf}</li>
       </ul>
     </div>
   );

@@ -34,5 +34,16 @@ describe("Components rendering", () => {
     const container = getByTestId("nodata");
 
     expect(container).toBeDefined();
-  })
+  });
 });
+
+describe("ZipCode validations", () => {
+  it("Should not have letters or special characters", () => {
+    const { getByTestId } = render(<ZipCode />);
+    const input = getByTestId("ZipCode-Input");
+    fireEvent.change(input, { target: { value: "abc123}^*&4567!@890" } });
+
+    expect(input.value).toBe("12345-678");
+  });
+});
+

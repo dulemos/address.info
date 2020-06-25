@@ -4,8 +4,8 @@ const NoData = (props) =>  {
     const {message} = props;
 
     return (
-        <div data-testid="nodata" className="container">
-            <h1>{message}</h1>
+        <div data-testid="nodata" className="container box">
+            <h1 className="box__items">{message}</h1>
         </div>
     ) 
 }
