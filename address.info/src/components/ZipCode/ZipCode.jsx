@@ -7,22 +7,41 @@ const ZipCode = () => {
   const [loading, setLoading] = useState(false);
   const [noData, setNoData] = useState(false);
   const [address, setAddress] = useState(false);
+  const [addressInfo, setAddressInfo] = useState({});
+  const [message, setMessage] = useState({});
 
   useEffect(() => {
+    setNoData(false)
+    setAddress(false)
     zipcode.length > 8 ? api(removeMask(zipcode)) : console.log("ainda nao..");
   }, [zipcode]);
+
+  useEffect(() => {
+    setLoading(false);
+    !addressInfo.cep || setAddress(true);
+  }, [addressInfo]);
+
+  useEffect(() => {
+    setLoading(false);
+    !message.erro || setNoData(true);
+  }, [message])
 
   const handleChange = (e) => {
     setZipcode(zipcodeMask(e.target.value));
   };
 
+  const handleClick = (e) => {
+    e.preventDefault();
+    const data = removeMask(zipcode);
+    data.length === 8 ? api(data) : setMessage({'erro': 'Caracteres insuficientes.'}) 
+  }
+
   const api = async (zipcode) => {
     setLoading(true);
-    setInterval(() =>  {
-      setLoading(false)
-      setAddress(true)
-    }, 1000)
-    return zipcode;
+    const data = await fetch(`http://localhost:5000/cep/${zipcode}`);
+    const jsonData = await data.json();
+
+    data.status === 201 ? setAddressInfo(jsonData) : setMessage(jsonData);
   };
 
   return (
@@ -39,14 +58,21 @@ const ZipCode = () => {
             value={zipcode}
             onChange={(event) => handleChange(event)}
           ></input>
-          <button type="submit" className="box__items__button">
+          <button type="submit" className="box__items__button" onClick={handleClick}>
             Buscar CEP
           </button>
         </form>
       </div>
       {!loading || <Loading />}
-      {!noData || <NoData />}
-      {!address || <Address />}
+      {!noData || <NoData message={message} />}
+      {!address || (
+        <Address
+          cep={addressInfo.cep}
+          logradouro={addressInfo.logradouro}
+          localidade={addressInfo.localidade}
+          uf={addressInfo.uf}
+        />
+      )}
     </React.Fragment>
   );
 };
